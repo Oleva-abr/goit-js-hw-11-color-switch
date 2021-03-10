@@ -2,7 +2,7 @@ import './styles.css';
 
 const startBtn = document.querySelector('[data-action="start"]');
 const stopBtn = document.querySelector('[data-action="stop"]');
-const body = document.querySelector('body');
+const body = document.body;
 
 // console.log(startBtn);
 // console.log(stopBtn);
@@ -20,7 +20,21 @@ const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-body.style.background = randomIntegerFromInterval(colors);
+let timerId = null;
+function addColor() {
+  timerId = setInterval(() => {
+    body.style.backgroundColor =
+      colors[randomIntegerFromInterval(0, colors.length - 1)];
+  }, 1000);
+}
+
+function removeColor() {
+  clearInterval(timerId);
+  body.style.backgroundColor = '#FFFFFF';
+}
+startBtn.addEventListener('click', addColor);
+
+stopBtn.addEventListener('click', removeColor);
 
 // Напиши скрипт, который после нажатия кнопки Start, раз в секунду меняет цвет фона body на
 // случайное значение из массива используя инлайн - стиль.При нажатии на кнопку Stop, изменение
